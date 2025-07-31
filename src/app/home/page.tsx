@@ -7,7 +7,8 @@ const Home = () => {
   return (
     <>
       <HeroCanvas />
-      {/* <Leva hidden /> */}
+      {/* TODO hidden env로 관리 */}
+      <Leva hidden />
     </>
   );
 };
