@@ -1,59 +1,59 @@
 "use client";
 
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
-import { useRef } from "react";
+import { Suspense, useEffect, useRef, useState } from "react";
 import * as THREE from "three";
-import { ParticleField } from "@/components/ParticleField";
-
-const Scene = () => {
-  const lightRef = useRef<THREE.PointLight>(null!);
-  const { camera, pointer } = useThree();
-
-  const plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), -0.5); // z = 0.5 평면
-  const raycaster = new THREE.Raycaster();
-  const mouse = new THREE.Vector2();
-  const target = new THREE.Vector3();
-
-  useFrame(() => {
-    mouse.set(pointer.x, pointer.y);
-    raycaster.setFromCamera(mouse, camera);
-    raycaster.ray.intersectPlane(plane, target); // 교차점 계산
-
-    lightRef.current.position.lerp(target, 0.3); // 부드럽게 따라가도록
-  });
-
-  return (
-    <>
-      <pointLight
-        ref={lightRef}
-        castShadow
-        intensity={5}
-        distance={10}
-        decay={2}
-        shadow-bias={-0.0001}
-      />
-    </>
-  );
-};
+import { SpiderModels } from "@/components/models/Spider";
+import { Effects } from "@/components/effects/Effects";
+import { Lights } from "@/components/effects/Lights";
+import { Bloom, EffectComposer } from "@react-three/postprocessing";
+import { useControls } from "leva";
+import { OrbitControls, Stats } from "@react-three/drei";
+import BloomEffects from "@/components/effects/Bloom";
+import { PlaneModel } from "@/components/models/Plane";
+import { Html, useProgress } from "@react-three/drei";
+import Loader from "@/components/Loader";
 
 const Home = () => {
   const sphereRef = useRef<THREE.Mesh>(null!);
+  const {
+    autoRotate,
+    mipmapBlur,
+    luminanceThreshold,
+    luminanceSmoothing,
+    intensity,
+  } = useControls({
+    autoRotate: !0,
+    mipmapBlur: !0,
+    luminanceThreshold: { value: 0.5, min: 0, max: 2, step: 0.01 },
+    luminanceSmoothing: { value: 0.025, min: 0, max: 1, step: 0.001 },
+    intensity: { value: 2, min: 0, max: 5, step: 0.01 },
+  });
+
   return (
-    <div style={{ width: "100vw", height: "100vh", backgroundColor: "white" }}>
-      <Canvas shadows camera={{ position: [0, 0, 5] }}>
-        <Scene />
-        {/* <ParticleField /> */}
-        <ambientLight intensity={0.3} />
-        <mesh ref={sphereRef} castShadow position={[0, 0, 1]}>
+    <div style={{ width: "100vw", height: "100vh", backgroundColor: "black" }}>
+      <Canvas shadows camera={{ position: [0, 0, 15] }}>
+        <Suspense fallback={<Loader />}>
+          <PlaneModel
+            position={[0, 0, 7]}
+            scale={0.01}
+            rotation={[0, 3, -0.4]}
+          />
+          <ambientLight intensity={0.3} />
+          {/* <mesh ref={sphereRef} castShadow position={[0, 0, 1]}>
           <sphereGeometry args={[0.5, 32, 32]} />
           <meshStandardMaterial color="gray" />
-        </mesh>
-        <mesh receiveShadow position={[0, -1, 0]}>
-          <planeGeometry args={[100, 100]} />
-          <meshStandardMaterial color="#eeeeee" />
-        </mesh>
-        {/* <OrbitControls /> */}
+        </mesh> */}
+          <Lights />
+          <BloomEffects />
+          <Effects />
+          <mesh receiveShadow position={[0, -1, 0]}>
+            <planeGeometry args={[100, 100]} />
+            <meshStandardMaterial color="black" />
+          </mesh>
+          <Stats />
+          {/* <OrbitControls /> */}
+        </Suspense>
       </Canvas>
     </div>
   );
