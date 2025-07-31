@@ -4,7 +4,8 @@ import { useControls } from "leva";
 import React, { useEffect, useState } from "react";
 import * as THREE from "three";
 import { useThree } from "@react-three/fiber";
-import { EffectComposer, GodRays } from "@react-three/postprocessing";
+import { EffectComposer, GodRays, Noise } from "@react-three/postprocessing";
+import BloomEffects from "./Bloom";
 
 export const Effects = () => {
   // add controller
@@ -32,6 +33,8 @@ export const Effects = () => {
         {lightMesh && datas.enabled && (
           <GodRays sun={lightMesh.current!} {...datas} />
         )}
+        <BloomEffects />
+        <Noise opacity={0.05} />
       </>
     </EffectComposer>
   );
