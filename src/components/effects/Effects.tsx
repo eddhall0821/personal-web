@@ -49,7 +49,7 @@ const useController = () => {
     weight: { value: 2, min: 0, max: 2, step: 0.01 },
     exposure: { value: 0.5, min: 0, max: 1, step: 0.01 },
     clampMax: { value: 0.1, min: 0, max: 1, step: 0.01 },
-    blur: { value: 1, min: 0, max: 1, step: 1 },
+    blur: { value: true },
     kernelSize: {
       // https://vanruesc.github.io/postprocessing/public/docs/file/src/materials/ConvolutionMaterial.js.html#lineNumber124
       options: {
