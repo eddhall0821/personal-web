@@ -30,9 +30,9 @@ export const Effects = () => {
   return (
     <EffectComposer>
       <>
-        {lightMesh && datas.enabled && (
-          <GodRays sun={lightMesh.current!} {...datas} />
-        )}
+        {typeof window !== "undefined" &&
+          lightMesh?.current &&
+          datas.enabled && <GodRays sun={lightMesh.current} {...datas} />}
         <BloomEffects />
         <Noise opacity={0.05} />
       </>
