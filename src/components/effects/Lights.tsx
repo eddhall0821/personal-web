@@ -29,7 +29,7 @@ export const Lights = () => {
     raycaster.setFromCamera(mouse, camera);
     raycaster.ray.intersectPlane(plane, target); // 교차점 계산
 
-    lightTargetRef.current.position.lerp(target, 0.3); // 부드럽게 따라가도록
+    lightTargetRef.current.position.lerp(target, 0.5); // 부드럽게 따라가도록
   });
 
   return (
