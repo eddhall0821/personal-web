@@ -13,6 +13,7 @@ import BloomEffects from "@/components/effects/Bloom";
 import { PlaneModel } from "@/components/models/Plane";
 import { Html, useProgress } from "@react-three/drei";
 import Loader from "@/components/Loader";
+import Camera from "../effects/Camera";
 
 const HeroCanvas = () => {
   return (
@@ -38,23 +39,25 @@ const HeroCanvas = () => {
           </mesh>
           <Text
             font="/fonts/Inconsolata-ExtraBold.ttf"
-            position={[0, 0.3, 12]} // z축 위치 조절 가능
-            fontSize={0.6}
+            position={[0, 0.3, 11]}
+            fontSize={0.5}
             color="white"
             anchorX="center"
             anchorY="middle"
           >
-            Hello, World!
+            Lorem Ipsum Dolor Sit.
+            {/* Soomin Kim, Frontend Developer. */}
           </Text>
           <Text
             font="/fonts/Inconsolata-ExtraBold.ttf"
-            position={[0, -0.3, 12]} // z축 위치 조절 가능
-            fontSize={0.4}
+            position={[0, -0.3, 11]}
+            fontSize={0.5}
             color="white"
             anchorX="center"
             anchorY="middle"
           >
-            Extra Bold
+            Consectetur Adipiscing.
+            {/* I build things that take off */}
           </Text>
           <Stats />
           {/* <OrbitControls /> */}

@@ -7,13 +7,31 @@ Source: https://sketchfab.com/3d-models/boeing-stearman-model-75-57035fcd89e7496
 Title: BOEING-STEARMAN MODEL 75
 */
 
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useGLTF, useAnimations } from "@react-three/drei";
+import { useFrame, useThree } from "@react-three/fiber";
+import * as THREE from "three";
 
 export function PlaneModel(props) {
   const group = React.useRef();
   const { nodes, materials, animations } = useGLTF("/models/plane.glb");
   const { actions } = useAnimations(animations, group);
+  const { camera, pointer } = useThree();
+
+  useFrame(() => {
+    if (group.current) {
+      const maxOffset = -1;
+      const offsetX = pointer.x * maxOffset;
+      const offsetY = pointer.y * maxOffset;
+
+      // 부드럽게 이동
+      group.current.position.x += (offsetX - group.current.position.x) * 0.05;
+      group.current.position.y += (offsetY - group.current.position.y) * 0.05;
+
+      group.current.rotation.z = -pointer.x * 0.2;
+      group.current.rotation.x = pointer.y * 0.2;
+    }
+  });
 
   useEffect(() => {
     if (actions["Base Stack"]) {
